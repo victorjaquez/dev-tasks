@@ -2,8 +2,8 @@ import React from "react";
 import TaskForm from "./TaskForm";
 /* 
 Tasklist
-1. Add task
-2. Display tasks
+1. Add task---
+2. Display tasks---
 3. Cross off tasks
 4. Show # of active tasks
 5. Filter all/active/complete
@@ -20,7 +20,7 @@ export default class TasksList extends React.Component {
 
   addTask = task => {
     this.setState({
-      tasks: [task, ...this.state.tasks]
+      tasks: [...this.state.tasks, task]
     });
   };
 
@@ -28,7 +28,9 @@ export default class TasksList extends React.Component {
     return (
       <div>
         <TaskForm onSubmit={this.addTask} />
-        {JSON.stringify(this.state.tasks)}
+        {this.state.tasks.map(task => (
+          <div key={task.id}>{task.text}</div>
+        ))}
       </div>
     );
   }

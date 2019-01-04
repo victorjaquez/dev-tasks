@@ -51,6 +51,9 @@ export default class TasksList extends React.Component {
             task={task}
           />
         ))}
+        <div>
+          Tasks left: {this.state.tasks.filter(task => !task.complete).length}
+        </div>
       </div>
     );
   }

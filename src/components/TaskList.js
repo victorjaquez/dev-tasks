@@ -1,10 +1,11 @@
 import React from "react";
 import TaskForm from "./TaskForm";
+import Task from "./Task";
 /* 
 Tasklist
 1. Add task---
 2. Display tasks---
-3. Cross off tasks
+3. Cross off tasks---
 4. Show # of active tasks
 5. Filter all/active/complete
 6. Delete task
@@ -24,12 +25,31 @@ export default class TasksList extends React.Component {
     });
   };
 
+  toggleComplete = id => {
+    this.setState({
+      tasks: this.state.tasks.map(task => {
+        if (task.id === id) {
+          return {
+            ...task,
+            complete: !task.complete
+          };
+        } else {
+          return task;
+        }
+      })
+    });
+  };
+
   render() {
     return (
       <div>
         <TaskForm onSubmit={this.addTask} />
         {this.state.tasks.map(task => (
-          <div key={task.id}>{task.text}</div>
+          <Task
+            key={task.id}
+            toggleComplete={() => this.toggleComplete(task.id)}
+            task={task}
+          />
         ))}
       </div>
     );

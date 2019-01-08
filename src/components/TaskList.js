@@ -53,6 +53,12 @@ export default class TasksList extends React.Component {
     });
   };
 
+  removeAllTasksThatAreComplete = id => {
+    this.setState({
+      tasks: this.state.tasks.filter(task => !task.complete)
+    });
+  };
+
   render() {
     let tasks = [];
     if (this.state.tasksToDisplay === "all") {
@@ -85,6 +91,13 @@ export default class TasksList extends React.Component {
             complete
           </button>
         </div>
+        {this.state.tasks.some(task => task.complete) ? (
+          <div>
+            <button onClick={this.removeAllTasksThatAreComplete}>
+              Remove all complete tasks
+            </button>
+          </div>
+        ) : null}
       </div>
     );
   }

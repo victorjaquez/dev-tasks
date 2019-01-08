@@ -16,7 +16,8 @@ Tasklist
 
 export default class TasksList extends React.Component {
   state = {
-    tasks: []
+    tasks: [],
+    tasksToDisplay: "all"
   };
 
   addTask = task => {
@@ -40,11 +41,25 @@ export default class TasksList extends React.Component {
     });
   };
 
+  updateTaskToDisplay = s => {
+    this.setState({
+      tasksToDisplay: s
+    });
+  };
+
   render() {
+    let tasks = [];
+    if (this.state.tasksToDisplay === "all") {
+      tasks = this.state.tasks;
+    } else if (this.state.tasksToDisplay === "active") {
+      tasks = this.state.tasks.filter(task => !task.complete);
+    } else if (this.state.tasksToDisplay === "complete") {
+      tasks = this.state.tasks.filter(task => task.complete);
+    }
     return (
       <div>
         <TaskForm onSubmit={this.addTask} />
-        {this.state.tasks.map(task => (
+        {tasks.map(task => (
           <Task
             key={task.id}
             toggleComplete={() => this.toggleComplete(task.id)}
@@ -53,6 +68,15 @@ export default class TasksList extends React.Component {
         ))}
         <div>
           Tasks left: {this.state.tasks.filter(task => !task.complete).length}
+        </div>
+        <div>
+          <button onClick={() => this.updateTaskToDisplay("all")}>all</button>
+          <button onClick={() => this.updateTaskToDisplay("active")}>
+            active
+          </button>
+          <button onClick={() => this.updateTaskToDisplay("complete")}>
+            complete
+          </button>
         </div>
       </div>
     );

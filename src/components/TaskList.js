@@ -9,15 +9,16 @@ Tasklist
 4. Show # of active tasks--
 5. Filter all/active/complete--
 6. Delete task--
-7. Delete all complete tasks
-    7.1 Only show if minimum one is complete
+7. Delete all complete tasks--
+    7.1 Only show if minimum one is complete--
 8. Toggle all button on/off
 */
 
 export default class TasksList extends React.Component {
   state = {
     tasks: [],
-    tasksToDisplay: "all"
+    tasksToDisplay: "all",
+    toggleAllComplete: true
   };
 
   addTask = task => {
@@ -98,6 +99,21 @@ export default class TasksList extends React.Component {
             </button>
           </div>
         ) : null}
+        <div>
+          <button
+            onClick={() =>
+              this.setState({
+                tasks: this.state.tasks.map(task => ({
+                  ...task,
+                  complete: this.state.toggleAllComplete
+                })),
+                toggleAllComplete: !this.state.toggleAllComplete
+              })
+            }
+          >
+            toggle all {`${this.state.toggleAllComplete}`}
+          </button>
+        </div>
       </div>
     );
   }
